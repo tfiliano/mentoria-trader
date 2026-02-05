@@ -1,0 +1,1649 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Mentoria Trader v2.0 - Prop Firms + IA</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1f2937;
+            --gray: #6b7280;
+            --light-gray: #f3f4f6;
+            --border: #e5e7eb;
+            --purple: #8b5cf6;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--dark);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .screen {
+            display: none;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            animation: slideIn 0.3s ease;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--dark);
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .radio-group,
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .radio-option,
+        .checkbox-option {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .radio-option:hover,
+        .checkbox-option:hover {
+            border-color: var(--primary);
+            background: rgba(37, 99, 235, 0.05);
+        }
+
+        .radio-option input,
+        .checkbox-option input {
+            margin-right: 12px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: var(--light-gray);
+            color: var(--dark);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: var(--light-gray);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--success));
+            transition: width 0.3s;
+        }
+
+        .card {
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            margin-bottom: 15px;
+            color: var(--dark);
+            font-size: 18px;
+        }
+
+        .alert {
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            border-left: 5px solid;
+        }
+
+        .alert-warning {
+            background: #fff7ed;
+            border-color: var(--warning);
+            color: #92400e;
+        }
+
+        .alert-danger {
+            background: #fef2f2;
+            border-color: var(--danger);
+            color: #991b1b;
+        }
+
+        .alert-success {
+            background: #f0fdf4;
+            border-color: var(--success);
+            color: #166534;
+        }
+
+        .alert-info {
+            background: #eff6ff;
+            border-color: var(--primary);
+            color: #1e40af;
+        }
+
+        .dream-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .dream-box h2 {
+            margin-bottom: 20px;
+        }
+
+        .dream-stat {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .dream-stat:last-child {
+            border-bottom: none;
+        }
+
+        .dream-stat .label {
+            opacity: 0.8;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .dream-stat .value {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .account-card {
+            background: linear-gradient(135deg, var(--purple), #6d28d9);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .account-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 200px;
+            height: 200px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+
+        .account-card .account-type {
+            font-size: 12px;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .account-card .account-value {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .account-card .account-label {
+            font-size: 13px;
+            opacity: 0.8;
+        }
+
+        .add-account-btn {
+            border: 2px dashed var(--border);
+            background: var(--light-gray);
+            color: var(--gray);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 15px;
+        }
+
+        .add-account-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: rgba(37, 99, 235, 0.05);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--light-gray);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .stat-card .value {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .stat-card .label {
+            font-size: 13px;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .warning-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--danger);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .prop-firm-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 5px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+        }
+
+        .phase-indicator {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .phase-step {
+            flex: 1;
+            padding: 8px;
+            background: var(--light-gray);
+            border-radius: 8px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .phase-step.active {
+            background: var(--success);
+            color: white;
+        }
+
+        .phase-step.completed {
+            background: var(--primary);
+            color: white;
+        }
+
+        .timeline-container {
+            background: var(--light-gray);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .timeline-icon.success {
+            background: var(--success);
+        }
+
+        .timeline-content {
+            flex: 1;
+        }
+
+        .timeline-content h4 {
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+
+        .timeline-content p {
+            color: var(--gray);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .ai-suggestion {
+            background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+        }
+
+        .ai-suggestion::before {
+            content: '🤖 IA RECOMENDA';
+            display: block;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 600px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- TELA 0: CADASTRO DE PERFIL -->
+        <div class="screen active" id="screen-profile-register">
+            <div class="header">
+                <h1>👤 Criar Sua Conta</h1>
+                <p>Primeiro, vamos conhecer você</p>
+            </div>
+            <div class="content">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 5%"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Nome Completo *</label>
+                    <input type="text" placeholder="Digite seu nome completo">
+                </div>
+
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" placeholder="seu@email.com">
+                </div>
+
+                <div class="form-group">
+                    <label>Telefone (WhatsApp) *</label>
+                    <input type="tel" placeholder="+55 (11) 99999-9999">
+                </div>
+
+                <div class="form-group">
+                    <label>Idade *</label>
+                    <input type="number" placeholder="Ex: 32" min="18" max="100">
+                </div>
+
+                <div class="form-group">
+                    <label>Sexo</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="gender" value="M">
+                            <span>Masculino</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="gender" value="F">
+                            <span>Feminino</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="gender" value="O">
+                            <span>Outro</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Senha *</label>
+                    <input type="password" placeholder="Mínimo 6 caracteres">
+                </div>
+
+                <button class="btn btn-primary" onclick="goToScreen('screen-experience')">
+                    Próximo →
+                </button>
+            </div>
+        </div>
+
+        <!-- TELA 1: EXPERIÊNCIA NO TRADING -->
+        <div class="screen" id="screen-experience">
+            <div class="header">
+                <h1>📈 Sua Experiência no Trading</h1>
+                <p>Vamos entender onde você está agora</p>
+            </div>
+            <div class="content">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 10%"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Você já opera?</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="already-trades" value="yes" checked>
+                            <span>Sim, já opero</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="already-trades" value="no">
+                            <span>Não, estou começando agora</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="already-trades" value="demo">
+                            <span>Só opero em demo/simulado</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Há quanto tempo você opera/estuda trading?</label>
+                    <select>
+                        <option>Menos de 3 meses</option>
+                        <option>3-6 meses</option>
+                        <option>6 meses a 1 ano</option>
+                        <option selected>1-2 anos</option>
+                        <option>2-5 anos</option>
+                        <option>Mais de 5 anos</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Qual sua MAIOR DIFICULDADE hoje no trading?</label>
+                    <textarea placeholder="Seja específico... Ex: Não consigo parar depois de loss, opero no emocional, não sigo meu plano, etc."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Qual seu MAIOR MEDO no trading?</label>
+                    <textarea placeholder="Ex: Perder tudo de novo, não conseguir viver disso, decepcionar minha família, etc."></textarea>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-secondary" onclick="goToScreen('screen-profile-register')">
+                        ← Voltar
+                    </button>
+                    <button class="btn btn-primary" onclick="goToScreen('screen-current-account')">
+                        Próximo →
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TELA 2: CONTA ATUAL E DESEMPENHO -->
+        <div class="screen" id="screen-current-account">
+            <div class="header">
+                <h1>💰 Sua Conta Atual</h1>
+                <p>Conte sobre sua operação hoje</p>
+            </div>
+            <div class="content">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 15%"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Você tem conta ativa operando agora?</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="has-active" value="yes" checked>
+                            <span>Sim, tenho conta(s) ativa(s)</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="has-active" value="no">
+                            <span>Não, estou parado</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Qual o valor TOTAL das suas contas ativas?</label>
+                    <input type="text" placeholder="Ex: R$ 10.000,00 ou $5.000">
+                </div>
+
+                <div class="form-group">
+                    <label>Como está o DESEMPENHO atual?</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="performance" value="positive">
+                            <span>✅ Positivo (estou ganhando)</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="performance" value="breakeven">
+                            <span>➖ Neutro (nem ganho, nem perco)</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="performance" value="negative" checked>
+                            <span>🔴 Negativo (estou perdendo)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>No último mês, qual foi seu resultado aproximado?</label>
+                    <select>
+                        <option>Não operei no último mês</option>
+                        <option>-50% ou pior (perdi metade ou mais)</option>
+                        <option>-30% a -50%</option>
+                        <option>-10% a -30%</option>
+                        <option selected>-5% a -10%</option>
+                        <option>-5% a 0% (small loss)</option>
+                        <option>0% a +5%</option>
+                        <option>+5% a +10%</option>
+                        <option>+10% a +20%</option>
+                        <option>+20% ou mais</option>
+                    </select>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-secondary" onclick="goToScreen('screen-experience')">
+                        ← Voltar
+                    </button>
+                    <button class="btn btn-primary" onclick="goToScreen('screen-operational-type')">
+                        Próximo →
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TELA 3: TIPO OPERACIONAL -->
+        <div class="screen" id="screen-operational-type">
+            <div class="header">
+                <h1>⚙️ Seu Estilo Operacional</h1>
+                <p>Como você opera?</p>
+            </div>
+            <div class="content">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 20%"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Qual seu TIPO de operação?</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="op-type" value="scalper">
+                            <span><strong>Scalper</strong> - Trades rápidos (segundos/minutos)</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="op-type" value="day-trader" checked>
+                            <span><strong>Day Trader</strong> - Trades no mesmo dia</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="op-type" value="swing">
+                            <span><strong>Swing Trader</strong> - Trades de dias/semanas</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="op-type" value="position">
+                            <span><strong>Position</strong> - Trades de longo prazo</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Quantos trades você faz POR DIA em média?</label>
+                    <input type="number" placeholder="Ex: 5" min="0" max="100">
+                </div>
+
+                <div class="form-group">
+                    <label>Qual seu TEMPO GRÁFICO principal?</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="timeframe" value="M1">
+                            <span>M1 (1 minuto)</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="timeframe" value="M5" checked>
+                            <span>M5 (5 minutos)</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="timeframe" value="M15">
+                            <span>M15 (15 minutos)</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="timeframe" value="H1">
+                            <span>H1 (1 hora)</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="timeframe" value="H4">
+                            <span>H4 (4 horas)</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="timeframe" value="D1">
+                            <span>D1 (Diário)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Qual(is) ativo(s) você opera?</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-option">
+                            <input type="checkbox">
+                            <span>EURUSD</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox">
+                            <span>GBPUSD</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" checked>
+                            <span>XAUUSD (Ouro)</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox">
+                            <span>US30 (Dow Jones)</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox">
+                            <span>BTCUSD (Bitcoin)</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox">
+                            <span>Outros</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-secondary" onclick="goToScreen('screen-current-account')">
+                        ← Voltar
+                    </button>
+                    <button class="btn btn-primary" onclick="goToScreen('screen-trading-rules')">
+                        Próximo →
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TELA 4: REGRAS OPERACIONAIS -->
+        <div class="screen" id="screen-trading-rules">
+            <div class="header">
+                <h1>📋 Suas Regras Operacionais</h1>
+                <p>Você tem regras definidas?</p>
+            </div>
+            <div class="content">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 25%"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Você tem um PLANO DE TRADING escrito?</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="has-plan" value="yes">
+                            <span>Sim, tenho plano escrito e detalhado</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="has-plan" value="mental">
+                            <span>Tenho, mas só "de cabeça"</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="has-plan" value="no" checked>
+                            <span>Não tenho plano definido</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Você SEGUE suas regras?</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="follow-rules" value="always">
+                            <span>Sim, sempre sigo</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="follow-rules" value="sometimes" checked>
+                            <span>Às vezes sigo, às vezes não</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="follow-rules" value="rarely">
+                            <span>Raramente sigo (opero no impulso)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Você usa STOP LOSS?</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="uses-sl" value="always">
+                            <span>Sempre uso</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="uses-sl" value="sometimes" checked>
+                            <span>Às vezes uso</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="uses-sl" value="never">
+                            <span>Nunca uso (fico gerenciando manualmente)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Você MOVE o stop loss depois que o trade está aberto?</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="moves-sl" value="never">
+                            <span>Nunca movo</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="moves-sl" value="sometimes" checked>
+                            <span>Às vezes movo (quando fica contra mim)</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="moves-sl" value="always">
+                            <span>Sempre movo (não consigo deixar bater)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Qual % de RISCO você usa por trade?</label>
+                    <select>
+                        <option>Não sei/não calculo</option>
+                        <option>0.5% ou menos</option>
+                        <option selected>1%</option>
+                        <option>1.5%</option>
+                        <option>2%</option>
+                        <option>3%</option>
+                        <option>5% ou mais</option>
+                        <option>Varia muito (inconsistente)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Você tem STOP LOSS DIÁRIO (limite de perda por dia)?</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="daily-stop" value="yes">
+                            <span>Sim, tenho e respeito</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="daily-stop" value="have-but-not-follow">
+                            <span>Tenho, mas não respeito sempre</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="daily-stop" value="no" checked>
+                            <span>Não tenho</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-secondary" onclick="goToScreen('screen-operational-type')">
+                        ← Voltar
+                    </button>
+                    <button class="btn btn-primary" onclick="goToScreen('screen-capital-type')">
+                        Próximo →
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TELA 5: ANAMNESE - TIPO DE CAPITAL -->
+        <div class="screen" id="screen-capital-type">
+            <div class="header">
+                <h1>💰 Tipo de Capital</h1>
+                <p>Agora vamos detalhar suas contas</p>
+            </div>
+            <div class="content">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 30%"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Qual tipo de capital você opera?</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="capital-type" value="prop" checked>
+                            <span><strong>Mesa Proprietária</strong> (FTMO, MyForexFunds, etc)</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="capital-type" value="own">
+                            <span><strong>Capital Próprio</strong></span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="capital-type" value="both">
+                            <span><strong>Ambos</strong> (Mesa + Capital Próprio)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="alert alert-info">
+                    <strong>💡 Por que perguntamos?</strong><br>
+                    Mesas proprietárias têm regras específicas (perda máxima diária, metas de fase) que exigem estratégias diferentes do capital próprio.
+                </div>
+
+                <button class="btn btn-primary" onclick="goToScreen('screen-prop-firms')">
+                    Próximo →
+                </button>
+            </div>
+        </div>
+
+        <!-- TELA 6: DETALHES DE MESAS PROPRIETÁRIAS -->
+        <div class="screen" id="screen-prop-firms">
+            <div class="header">
+                <h1>🏢 Suas Mesas Proprietárias</h1>
+                <p>Configure cada conta que você possui</p>
+            </div>
+            <div class="content">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 50%"></div>
+                </div>
+
+                <!-- Conta 1 -->
+                <div class="card">
+                    <div class="prop-firm-tag">CONTA PROP #1</div>
+                    
+                    <div class="form-group">
+                        <label>Nome da mesa</label>
+                        <select>
+                            <option>FTMO</option>
+                            <option>MyForexFunds</option>
+                            <option>The5ers</option>
+                            <option>TopStep</option>
+                            <option>Outra</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tamanho da conta</label>
+                        <select>
+                            <option>$5,000</option>
+                            <option>$10,000</option>
+                            <option>$25,000</option>
+                            <option>$50,000</option>
+                            <option selected>$100,000</option>
+                            <option>$200,000</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Fase atual</label>
+                        <div class="phase-indicator">
+                            <div class="phase-step completed">Fase 1 ✓</div>
+                            <div class="phase-step active">Fase 2</div>
+                            <div class="phase-step">Fundado</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Meta da fase atual (%)</label>
+                        <input type="number" value="5" step="0.1">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Perda máxima diária ($)</label>
+                        <input type="number" value="2000" step="100">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Perda máxima total ($)</label>
+                        <input type="number" value="5000" step="100">
+                    </div>
+                </div>
+
+                <!-- Botão adicionar mais contas -->
+                <div class="add-account-btn" onclick="alert('Funcionalidade: Adicionar nova conta prop')">
+                    <strong>➕ Adicionar Outra Mesa Proprietária</strong>
+                </div>
+
+                <div class="form-group" style="margin-top: 30px;">
+                    <label>Você também tem capital próprio?</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="has-own" value="yes">
+                            <span>Sim, também opero com capital próprio</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="has-own" value="no" checked>
+                            <span>Não, só mesas proprietárias</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-secondary" onclick="goToScreen('screen-capital-type')">
+                        ← Voltar
+                    </button>
+                    <button class="btn btn-primary" onclick="goToScreen('screen-dream-goals')">
+                        Próximo →
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TELA 7: SONHOS E METAS -->
+        <div class="screen" id="screen-dream-goals">
+            <div class="header">
+                <h1>💭 Seu Sonho</h1>
+                <p>Vamos construir seu plano juntos</p>
+            </div>
+            <div class="content">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 70%"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>O que você quer conquistar com trading?</label>
+                    <textarea placeholder="Ex: Viver de trading, ganhar $10k/mês, largar o emprego..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Quanto você quer ganhar por mês?</label>
+                    <input type="text" placeholder="Ex: R$ 20.000,00">
+                </div>
+
+                <div class="form-group">
+                    <label>Em quanto tempo?</label>
+                    <select>
+                        <option>3 meses</option>
+                        <option>6 meses</option>
+                        <option selected>12 meses</option>
+                        <option>24 meses</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Se tivesse que escolher um foco principal:</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="focus" value="fundado" checked>
+                            <span><strong>Ser fundado</strong> nas mesas prop (capital maior)</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="focus" value="consistency">
+                            <span><strong>Consistência</strong> (ganhos regulares)</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="focus" value="scale">
+                            <span><strong>Escalar</strong> (aumentar size progressivamente)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-secondary" onclick="goToScreen('screen-prop-firms')">
+                        ← Voltar
+                    </button>
+                    <button class="btn btn-primary" onclick="goToScreen('screen-behavior')">
+                        Próximo →
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TELA 8: COMPORTAMENTO -->
+        <div class="screen" id="screen-behavior">
+            <div class="header">
+                <h1>🧠 Seu Comportamento</h1>
+                <p>Honestidade total aqui - é crucial para seu sucesso</p>
+            </div>
+            <div class="content">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 90%"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Você já perdeu alguma conta prop?</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="lost-prop" value="never">
+                            <span>Nunca perdi</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="lost-prop" value="1-2">
+                            <span>1-2 contas</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="lost-prop" value="3+" checked>
+                            <span>3 ou mais contas</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Principal motivo de perda da conta:</label>
+                    <select>
+                        <option selected>Perda máxima diária</option>
+                        <option>Perda máxima total</option>
+                        <option>Não bater meta no prazo</option>
+                        <option>Violação de regras</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Você opera diferente em conta demo vs prop real?</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="demo-diff" value="yes" checked>
+                            <span>Sim, fico mais tenso/agressivo na real</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="demo-diff" value="no">
+                            <span>Não, opero igual</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Quando você perde perto da perda máxima diária, você:</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="near-loss" value="stop">
+                            <span>Paro imediatamente</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="near-loss" value="careful">
+                            <span>Continuo com MUITO cuidado</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="near-loss" value="revenge" checked>
+                            <span>Tento recuperar (modo vingança)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-secondary" onclick="goToScreen('screen-dream-goals')">
+                        ← Voltar
+                    </button>
+                    <button class="btn btn-success" onclick="goToScreen('screen-result-v2')">
+                        Ver Meu Plano 🎯
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TELA 9: RESULTADO V2 - ENTRANDO NA ONDA + REALISMO -->
+        <div class="screen" id="screen-result-v2">
+            <div class="header">
+                <h1>🎯 Seu Plano Profissional</h1>
+                <p>Caminho personalizado para suas metas</p>
+            </div>
+            <div class="content">
+                <div class="alert alert-info">
+                    <strong>🎓 Perfil: TRADER EM DESENVOLVIMENTO</strong><br>
+                    Você tem potencial, mas precisa eliminar padrões autodestrutivos.
+                </div>
+
+                <!-- PARTE 1: ENTRANDO NA ONDA DO SONHO -->
+                <div class="dream-box">
+                    <h2>💰 Seu Plano de $20k/mês</h2>
+                    
+                    <div class="dream-stat">
+                        <div class="label">Contas Ativas</div>
+                        <div class="value">1x FTMO $100k (Fase 2)</div>
+                    </div>
+                    
+                    <div class="dream-stat">
+                        <div class="label">Meta Mensal Necessária</div>
+                        <div class="value">$5.000 (5%)</div>
+                    </div>
+                    
+                    <div class="dream-stat">
+                        <div class="label">Split Após Fundado</div>
+                        <div class="value">80% = $4.000/mês</div>
+                    </div>
+                </div>
+
+                <div class="ai-suggestion">
+                    <strong>Para chegar nos $20k/mês você precisa:</strong><br><br>
+                    
+                    1️⃣ Ser fundado nesta conta ($100k)<br>
+                    2️⃣ Adicionar mais 4 contas prop fundadas<br>
+                    3️⃣ Fazer média de 5% ao mês em cada uma<br><br>
+                    
+                    <strong>Investimento necessário:</strong> $2.500 em testes de prop<br>
+                    <strong>Prazo realista:</strong> 12-18 meses
+                </div>
+
+                <!-- TIMELINE DO PLANO -->
+                <div class="timeline-container">
+                    <h3 style="margin-bottom: 20px;">📅 Sua Jornada (12 meses)</h3>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-icon">1</div>
+                        <div class="timeline-content">
+                            <h4>Meses 1-2: Proteção e Fundação</h4>
+                            <p>Foco: Passar Fase 2 atual sem perder conta. Objetivo: Ser fundado.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-icon success">2</div>
+                        <div class="timeline-content">
+                            <h4>Meses 3-4: Primeira Conta Fundada</h4>
+                            <p>Ganhos: $4k/mês. Comprar 2º teste prop com lucros.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-icon">3</div>
+                        <div class="timeline-content">
+                            <h4>Meses 5-8: Escalar para 3 Contas</h4>
+                            <p>Ganhos: $12k/mês. Processar 3º e 4º testes.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-icon">4</div>
+                        <div class="timeline-content">
+                            <h4>Meses 9-12: Meta Atingida</h4>
+                            <p>5 contas fundadas. Ganhos: $20k/mês. Objetivo cumprido!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ALERTA REALISTA -->
+                <div class="alert alert-warning">
+                    <strong>⚠️ MAS ATENÇÃO - A REALIDADE:</strong><br><br>
+                    
+                    Você perdeu <strong>3+ contas prop</strong> antes. Seu padrão é:<br>
+                    • Operar em modo vingança perto do limite<br>
+                    • Ficar tenso em conta real<br><br>
+                    
+                    <strong>Se você repetir esses erros, vai:</strong><br>
+                    ❌ Perder esta conta em Fase 2<br>
+                    ❌ Gastar mais $500-1000 em novos testes<br>
+                    ❌ Ficar no ciclo de "pagar teste → perder → pagar teste"
+                </div>
+
+                <!-- PLANO DE AÇÃO IMEDIATO -->
+                <div class="card">
+                    <h3>🎯 SUAS ARMAS OBRIGATÓRIAS</h3>
+                    <p>Baseado no seu perfil, estas proteções são ESSENCIAIS:</p><br>
+                    
+                    <div class="checkbox-group">
+                        <label class="checkbox-option">
+                            <input type="checkbox" checked disabled>
+                            <span><strong>Trava de Perda Máxima</strong> - Para quando atingir 70% do limite diário</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" checked disabled>
+                            <span><strong>Alerta de Tensão</strong> - Detecta trades fora do padrão</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" checked disabled>
+                            <span><strong>Modo Proteção Prop</strong> - Regras extras para conta prop</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" checked disabled>
+                            <span><strong>Check-in Obrigatório</strong> - Antes de cada sessão</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="alert alert-success">
+                    <strong>✅ COMPROMISSO:</strong><br><br>
+                    
+                    Nos primeiros <strong>15 dias</strong>, vamos focar em:<br>
+                    1. NÃO PERDER a conta (proteção máxima)<br>
+                    2. Construir rotina de check-ins<br>
+                    3. Registrar TODOS os trades<br><br>
+                    
+                    Após 15 dias, o sistema vai te mostrar:<br>
+                    • Se seu plano é realista baseado no SEU desempenho real<br>
+                    • Ajustes necessários na estratégia<br>
+                    • Próximos passos validados por dados
+                </div>
+
+                <button class="btn btn-success" onclick="goToScreen('screen-dashboard-v2')">
+                    Começar Agora 🚀
+                </button>
+            </div>
+        </div>
+
+        <!-- TELA 10: DASHBOARD V2 - MULTI-CONTA -->
+        <div class="screen" id="screen-dashboard-v2">
+            <div class="header">
+                <h1>👤 Dashboard - Thiago</h1>
+                <p style="margin-top: 10px;">
+                    <span style="background: rgba(255,255,255,0.2); padding: 5px 15px; border-radius: 20px; font-size: 13px;">
+                        ⭐ Nível 1: Sobrevivente - Dia 3/15
+                    </span>
+                </p>
+            </div>
+            <div class="content">
+                <!-- Visão Consolidada -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="value">72</div>
+                        <div class="label">Score Hoje</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="value" style="color: var(--success);">+$380</div>
+                        <div class="label">Total Hoje</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="value">3/5</div>
+                        <div class="label">Trades</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="value">66%</div>
+                        <div class="label">Win Rate Hoje</div>
+                    </div>
+                </div>
+
+                <!-- Contas Individuais -->
+                <h3 style="margin-bottom: 15px; color: var(--dark);">💼 Suas Contas</h3>
+
+                <div class="account-card">
+                    <div class="account-type">FTMO - Fase 2</div>
+                    <div class="account-value">$100,000</div>
+                    <div class="account-label">Saldo: $102,380 (+2.38%)</div>
+                    
+                    <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.2);">
+                        <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 5px;">
+                            <span>Meta Fase 2:</span>
+                            <strong>2.38% / 5%</strong>
+                        </div>
+                        <div style="height: 6px; background: rgba(255,255,255,0.3); border-radius: 3px; overflow: hidden;">
+                            <div style="width: 47.6%; height: 100%; background: white;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="warning-badge" style="margin-top: 15px;">
+                        ⚠️ Perda máxima hoje: $1,520 restantes
+                    </div>
+                </div>
+
+                <!-- Botão adicionar trades existentes -->
+                <div class="add-account-btn" onclick="goToScreen('screen-import-trades')">
+                    <strong>📥 Importar Trades em Andamento</strong><br>
+                    <small style="opacity: 0.7;">Se você já tem trades abertos, adicione aqui</small>
+                </div>
+
+                <!-- Status do Dia -->
+                <div class="card">
+                    <h3>📊 Status do Dia</h3>
+                    <p>
+                    ✅ Check-in pré-sessão feito<br>
+                    📈 3 trades: 2 wins, 1 loss<br>
+                    🛡️ Modo: <strong style="color: var(--warning);">Proteção (primeiros 15 dias)</strong><br>
+                    ⏰ Sessão NY (ainda ativa)
+                    </p>
+                </div>
+
+                <div class="ai-suggestion">
+                    Você está em boa forma hoje! Mas atenção:<br>
+                    • Faltam $1.520 para perda máxima diária<br>
+                    • Já fez 3/5 trades permitidos<br>
+                    • Considere encerrar o dia se bater $500 total
+                </div>
+
+                <div class="btn-group" style="margin-top: 30px;">
+                    <button class="btn btn-primary" onclick="goToScreen('screen-trade-register-v2')">
+                        ➕ Registrar Trade
+                    </button>
+                    <button class="btn btn-secondary" onclick="goToScreen('screen-accounts-detail')">
+                        📊 Detalhes Contas
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TELA 11: IMPORTAR TRADES EXISTENTES -->
+        <div class="screen" id="screen-import-trades">
+            <div class="header">
+                <h1>📥 Importar Trades</h1>
+                <p>Adicione trades que já estão em andamento</p>
+            </div>
+            <div class="content">
+                <div class="alert alert-info">
+                    <strong>💡 Por que importar?</strong><br>
+                    Se você já tem trades abertos ou fez trades hoje antes de configurar o sistema, adicione aqui para manter o dashboard atualizado.
+                </div>
+
+                <div class="form-group">
+                    <label>Selecione a conta</label>
+                    <select>
+                        <option>FTMO $100k - Fase 2</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Método de importação</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="import-method" value="manual" checked>
+                            <span><strong>Manual</strong> - Adicionar trade por trade</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="import-method" value="csv">
+                            <span><strong>CSV/Extrato</strong> - Upload de arquivo (em breve)</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="import-method" value="mt5">
+                            <span><strong>MT5 Automático</strong> - Via EA (em breve)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Formulário de trade manual simplificado -->
+                <div class="card">
+                    <h3>Trade #1</h3>
+                    <div class="form-group">
+                        <label>Ativo</label>
+                        <input type="text" value="XAUUSD">
+                    </div>
+                    <div class="form-group">
+                        <label>Resultado</label>
+                        <input type="number" value="150" placeholder="$">
+                    </div>
+                    <div class="form-group">
+                        <label>Horário</label>
+                        <input type="time" value="14:30">
+                    </div>
+                </div>
+
+                <div class="add-account-btn" onclick="alert('Adicionar outro trade')">
+                    <strong>➕ Adicionar Mais Um Trade</strong>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-secondary" onclick="goToScreen('screen-dashboard-v2')">
+                        Cancelar
+                    </button>
+                    <button class="btn btn-success" onclick="goToScreen('screen-dashboard-v2')">
+                        💾 Salvar Trades
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TELA 12: REGISTRO DE TRADE V2 - COM SELEÇÃO DE CONTA -->
+        <div class="screen" id="screen-trade-register-v2">
+            <div class="header">
+                <h1>📝 Registrar Trade</h1>
+                <p>Transparência total para evolução real</p>
+            </div>
+            <div class="content">
+                <div class="form-group">
+                    <label>Em qual conta?</label>
+                    <select>
+                        <option>FTMO $100k - Fase 2</option>
+                    </select>
+                </div>
+
+                <div class="warning-badge">
+                    ⚠️ Atenção: Perda máxima restante hoje: $1,520
+                </div>
+
+                <div class="form-group">
+                    <label>Ativo</label>
+                    <input type="text" value="XAUUSD">
+                </div>
+
+                <div class="form-group">
+                    <label>Direção</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="direction-v2" value="buy" checked>
+                            <span>🟢 Compra</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="direction-v2" value="sell">
+                            <span>🔴 Venda</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Resultado ($)</label>
+                    <input type="number" value="85" step="0.01">
+                </div>
+
+                <div class="ai-suggestion">
+                    🤖 <strong>Validação automática:</strong><br>
+                    ✅ Trade dentro da sessão permitida<br>
+                    ✅ Risco dentro do limite<br>
+                    ⚠️ Você está próximo de 3 trades no dia - considere reduzir frequência
+                </div>
+
+                <div class="form-group">
+                    <label>Seguiu todas as regras?</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="rules-v2" value="yes" checked>
+                            <span>✅ Sim, segui tudo</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="rules-v2" value="no">
+                            <span>⚠️ Não, tive algum deslize</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-secondary" onclick="goToScreen('screen-dashboard-v2')">
+                        Cancelar
+                    </button>
+                    <button class="btn btn-success" onclick="goToScreen('screen-dashboard-v2')">
+                        💾 Salvar Trade
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TELA 13: DETALHES DAS CONTAS -->
+        <div class="screen" id="screen-accounts-detail">
+            <div class="header">
+                <h1>💼 Suas Contas</h1>
+                <p>Visão detalhada de cada conta</p>
+            </div>
+            <div class="content">
+                <div class="account-card">
+                    <div class="account-type">FTMO - Fase 2</div>
+                    <div class="account-value">$100,000</div>
+                    <div class="account-label">Saldo: $102,380 (+2.38%)</div>
+                    
+                    <div style="margin-top: 20px;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; font-size: 14px;">
+                            <div>
+                                <div style="opacity: 0.8;">Meta Fase:</div>
+                                <strong>$5,000 (5%)</strong>
+                            </div>
+                            <div>
+                                <div style="opacity: 0.8;">Progresso:</div>
+                                <strong>$2,380 (47.6%)</strong>
+                            </div>
+                            <div>
+                                <div style="opacity: 0.8;">Perda Máx. Dia:</div>
+                                <strong>$2,000</strong>
+                            </div>
+                            <div>
+                                <div style="opacity: 0.8;">Perda Máx. Total:</div>
+                                <strong>$5,000</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>📊 Performance desta conta</h3>
+                    <p>
+                    • Dias operados: 3<br>
+                    • Total de trades: 8<br>
+                    • Win rate: 75%<br>
+                    • Maior loss do dia: -$180<br>
+                    • Média de ganho/dia: +$793
+                    </p>
+                </div>
+
+                <div class="alert alert-success">
+                    <strong>✅ Você está no caminho certo!</strong><br>
+                    Mantendo esse ritmo, você bate a meta de 5% em aproximadamente 8 dias úteis.
+                </div>
+
+                <button class="btn btn-secondary" onclick="goToScreen('screen-dashboard-v2')">
+                    ← Voltar ao Dashboard
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function goToScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            document.getElementById(screenId).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+    </script>
+</body>
+</html>
