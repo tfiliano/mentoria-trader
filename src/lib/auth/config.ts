@@ -5,6 +5,7 @@ import { db } from '@/lib/db/client';
 import { users, tenants } from '@/lib/db/schema';
 import { eq, and } from 'drizzle-orm';
 import type { DefaultSession } from 'next-auth';
+import { authConfig } from './auth.config';
 
 // Extend session type to include tenant info
 declare module 'next-auth' {
@@ -27,15 +28,8 @@ declare module 'next-auth' {
   }
 }
 
-
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  session: {
-    strategy: 'jwt',
-  },
-  pages: {
-    signIn: '/login',
-    error: '/login',
-  },
+  ...authConfig,
   providers: [
     CredentialsProvider({
       name: 'credentials',
@@ -105,24 +99,4 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
     }),
   ],
-  callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.id = user.id;
-        token.tenantId = user.tenantId;
-        token.tenantSlug = user.tenantSlug;
-        token.role = user.role;
-      }
-      return token;
-    },
-    async session({ session, token }) {
-      if (token && session.user) {
-        session.user.id = token.id as string;
-        session.user.tenantId = token.tenantId as string;
-        session.user.tenantSlug = token.tenantSlug as string;
-        session.user.role = token.role as string;
-      }
-      return session;
-    },
-  },
 });
