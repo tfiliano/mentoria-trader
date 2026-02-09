@@ -12,14 +12,14 @@ export default async function DashboardPage() {
   const session = await auth();
   if (!session?.user) return null;
 
-  const { userId, tenantId } = session.user as { userId: string; tenantId: string; id: string };
-  const actualUserId = userId || session.user.id;
+  const userId = session.user.id;
+  const tenantId = session.user.tenantId;
 
   const [progress, challenge, leaderboard, rank] = await Promise.all([
-    getUserProgress(actualUserId, tenantId),
-    getChallengeOverview(actualUserId, tenantId),
+    getUserProgress(userId, tenantId),
+    getChallengeOverview(userId, tenantId),
     getLeaderboard(tenantId, 5),
-    getUserRank(actualUserId, tenantId),
+    getUserRank(userId, tenantId),
   ]);
 
   const levelInfo = getLevelInfo(progress?.level ?? 1);

@@ -517,7 +517,7 @@ export default function HomePage() {
                 className="bg-[var(--bg-secondary)] border border-white/10 rounded-2xl p-8 relative"
               >
                 <div className="absolute top-5 left-5 text-6xl text-[var(--accent-primary)]/10 font-serif">
-                  "
+                  &ldquo;
                 </div>
                 <div className="relative z-10">
                   <div className="text-amber-400 text-lg mb-5">★★★★★</div>

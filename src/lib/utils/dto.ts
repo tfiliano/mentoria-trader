@@ -124,7 +124,7 @@ export function toUserPublicDTO(user: {
   id: string;
   name: string;
   avatarUrl?: string | null;
-  progress?: { level?: number; xp?: number } | null;
+  progress?: { level?: number | null; xp?: number | null } | null;
 }): UserPublicDTO {
   return {
     id: user.id,

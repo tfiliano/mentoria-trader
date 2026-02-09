@@ -293,7 +293,7 @@ export function RegisterTradeForm() {
                             onClick={() => setShowAssetDropdown(false)}
                             className="w-full text-left px-3 py-2 text-sm hover:bg-muted/30 transition-colors text-[var(--accent-primary)]"
                           >
-                            + Usar "{formData.asset}"
+                            + Usar &quot;{formData.asset}&quot;
                           </button>
                         )}
                       </div>

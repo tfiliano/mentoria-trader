@@ -86,7 +86,8 @@ export const createTenantSchema = z.object({
     .max(50, 'Slug muito longo')
     .regex(/^[a-z0-9-]+$/, 'Slug deve conter apenas letras minúsculas, números e hífens'),
   name: z.string().min(2, 'Nome deve ter no mínimo 2 caracteres'),
-  customDomain: z.string().url('URL inválida').optional().nullable(),
+  logoUrl: z.string().url('URL inválida').optional().nullable(),
+  customDomain: z.string().optional().nullable(),
   primaryColor: z.string().regex(/^#[0-9A-Fa-f]{6}$/, 'Cor inválida').optional(),
   secondaryColor: z.string().regex(/^#[0-9A-Fa-f]{6}$/, 'Cor inválida').optional(),
   plan: z.enum(['starter', 'pro', 'enterprise']).optional(),

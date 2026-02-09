@@ -140,7 +140,7 @@ export default function OnboardingPage() {
     }
   }, []);
 
-  const updateField = (field: keyof FormData, value: string | number | boolean) => {
+  const updateField = (field: keyof FormData, value: string | number | boolean | null) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 

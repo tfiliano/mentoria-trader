@@ -27,14 +27,6 @@ declare module 'next-auth' {
   }
 }
 
-declare module 'next-auth/jwt' {
-  interface JWT {
-    id: string;
-    tenantId: string;
-    tenantSlug: string;
-    role: string;
-  }
-}
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   session: {
@@ -125,10 +117,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
     async session({ session, token }) {
       if (token && session.user) {
-        session.user.id = token.id;
-        session.user.tenantId = token.tenantId;
-        session.user.tenantSlug = token.tenantSlug;
-        session.user.role = token.role;
+        session.user.id = token.id as string;
+        session.user.tenantId = token.tenantId as string;
+        session.user.tenantSlug = token.tenantSlug as string;
+        session.user.role = token.role as string;
       }
       return session;
     },
