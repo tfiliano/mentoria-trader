@@ -169,7 +169,7 @@ export default function PrivacyPage() {
 
           <h3 className="text-xl font-semibold mb-3">6.1 Como Exercer Seus Direitos</h3>
           <p className="text-muted-foreground mb-2">Para exercer qualquer um desses direitos, envie um e-mail para:</p>
-          <p className="text-[var(--accent-primary)] font-medium mb-2">privacidade@mentoraai.com.br</p>
+          <p className="text-[var(--accent-primary)] font-medium mb-2">privacidade@mytradementorai.com.br</p>
           <p className="text-muted-foreground">Responderemos em até <strong className="text-foreground">15 dias úteis</strong>.</p>
         </section>
 
@@ -242,7 +242,7 @@ export default function PrivacyPage() {
         <div className="bg-card p-8 rounded-2xl text-center mt-12">
           <h3 className="text-xl font-semibold text-[var(--accent-primary)] mb-4">Dúvidas sobre Privacidade?</h3>
           <p className="text-muted-foreground mb-2">Entre em contato conosco:</p>
-          <p className="text-foreground font-medium">privacidade@mentoraai.com.br</p>
+          <p className="text-foreground font-medium">privacidade@mytradementorai.com.br</p>
           <p className="text-muted-foreground text-sm mt-2">Estamos aqui para esclarecer qualquer questão sobre seus dados.</p>
         </div>
       </div>

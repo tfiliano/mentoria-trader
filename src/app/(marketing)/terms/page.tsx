@@ -123,7 +123,7 @@ export default function TermsPage() {
           <h3 className="text-xl font-semibold mb-3">5.2 Garantia de 7 Dias</h3>
           <p className="text-muted-foreground">
             Oferecemos garantia incondicional de <strong className="text-foreground">7 dias</strong> a partir
-            da primeira compra. Se você não estiver satisfeito, solicite reembolso integral via suporte@mentoraai.com.br.
+            da primeira compra. Se você não estiver satisfeito, solicite reembolso integral via suporte@mytradementorai.com.br.
           </p>
         </section>
 
@@ -180,8 +180,8 @@ export default function TermsPage() {
           <h2 className="text-2xl font-bold text-[var(--accent-primary)] mb-4">9. Contato</h2>
           <p className="text-muted-foreground mb-4">Para dúvidas sobre estes Termos, entre em contato:</p>
           <ul className="text-muted-foreground space-y-2">
-            <li><strong className="text-foreground">E-mail:</strong> juridico@mentoraai.com.br</li>
-            <li><strong className="text-foreground">Suporte:</strong> suporte@mentoraai.com.br</li>
+            <li><strong className="text-foreground">E-mail:</strong> juridico@mytradementorai.com.br</li>
+            <li><strong className="text-foreground">Suporte:</strong> suporte@mytradementorai.com.br</li>
           </ul>
         </section>
 
@@ -189,7 +189,7 @@ export default function TermsPage() {
         <div className="bg-card p-8 rounded-2xl text-center mt-12">
           <h3 className="text-xl font-semibold text-[var(--accent-primary)] mb-4">Dúvidas Jurídicas?</h3>
           <p className="text-muted-foreground mb-2">Entre em contato com nossa equipe jurídica:</p>
-          <p className="text-foreground font-medium">juridico@mentoraai.com.br</p>
+          <p className="text-foreground font-medium">juridico@mytradementorai.com.br</p>
           <p className="text-muted-foreground text-sm mt-2">Respondemos em até 48 horas úteis.</p>
         </div>
       </div>
