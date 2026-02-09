@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificado - Trader Disciplinado</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Georgia', serif;
+            background: #0a0a0a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .certificate-container {
+            max-width: 1000px;
+            background: linear-gradient(135deg, #ffffff, #f8f8f8);
+            border: 20px solid #1a1a1a;
+            border-radius: 10px;
+            padding: 60px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+        
+        .certificate-border {
+            border: 3px double #00ff88;
+            padding: 40px;
+            position: relative;
+        }
+        
+        .ornament {
+            position: absolute;
+            color: #00ff88;
+            font-size: 3rem;
+        }
+        
+        .ornament.top-left { top: -10px; left: -10px; }
+        .ornament.top-right { top: -10px; right: -10px; }
+        .ornament.bottom-left { bottom: -10px; left: -10px; }
+        .ornament.bottom-right { bottom: -10px; right: -10px; }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo-text {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #00ff88, #00ccff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 3px;
+        }
+        
+        .certificate-title {
+            text-align: center;
+            font-size: 3.5rem;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+        }
+        
+        .certificate-subtitle {
+            text-align: center;
+            font-size: 1.5rem;
+            color: #666;
+            margin-bottom: 40px;
+        }
+        
+        .certificate-text {
+            text-align: center;
+            font-size: 1.2rem;
+            line-height: 2;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        
+        .recipient-name {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #00ff88;
+            display: block;
+            margin: 30px 0;
+            text-decoration: underline;
+            text-decoration-style: double;
+        }
+        
+        .achievement-box {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 204, 255, 0.1));
+            border: 2px solid #00ff88;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 40px 0;
+        }
+        
+        .achievement-title {
+            text-align: center;
+            font-size: 1.5rem;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .achievements-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            text-align: center;
+        }
+        
+        .achievement-item {
+            font-size: 1.1rem;
+            color: #333;
+        }
+        
+        .achievement-value {
+            font-weight: 700;
+            color: #00ff88;
+        }
+        
+        .signatures {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 2px solid #ddd;
+        }
+        
+        .signature {
+            text-align: center;
+        }
+        
+        .signature-line {
+            width: 250px;
+            height: 2px;
+            background: #333;
+            margin: 0 auto 10px;
+        }
+        
+        .signature-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 5px;
+        }
+        
+        .signature-title {
+            font-size: 0.9rem;
+            color: #666;
+            font-style: italic;
+        }
+        
+        .certificate-footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid #ddd;
+        }
+        
+        .certificate-id {
+            font-size: 0.85rem;
+            color: #999;
+            letter-spacing: 2px;
+        }
+        
+        .certificate-date {
+            font-size: 1rem;
+            color: #666;
+            margin-top: 10px;
+        }
+        
+        .seal {
+            position: absolute;
+            bottom: 80px;
+            right: 80px;
+            width: 120px;
+            height: 120px;
+            border: 5px solid #00ff88;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            transform: rotate(-15deg);
+        }
+        
+        .seal-text {
+            font-size: 0.7rem;
+            color: #00ff88;
+            font-weight: 700;
+            text-align: center;
+            line-height: 1.2;
+        }
+        
+        .seal-icon {
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+        
+        .btn-download {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #00ff88, #00ccff);
+            color: #000;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0, 255, 136, 0.4);
+        }
+        
+        @media print {
+            body { background: white; }
+            .btn-download { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="certificate-container">
+        <div class="certificate-border">
+            <div class="ornament top-left">✦</div>
+            <div class="ornament top-right">✦</div>
+            <div class="ornament bottom-left">✦</div>
+            <div class="ornament bottom-right">✦</div>
+            
+            <div class="logo">
+                <div class="logo-text">MENTORA AI</div>
+            </div>
+            
+            <h1 class="certificate-title">Certificado</h1>
+            <p class="certificate-subtitle">de Excelência em Trading</p>
+            
+            <div class="certificate-text">
+                Certificamos que
+                
+                <span class="recipient-name">Thiago FX</span>
+                
+                completou com êxito o <strong>Desafio 30 Dias</strong> do programa de mentoria inteligente MENTORA AI, demonstrando disciplina excepcional, consistência operacional e comprometimento com o desenvolvimento contínuo como trader profissional.
+            </div>
+            
+            <div class="achievement-box">
+                <h3 class="achievement-title">🏆 Conquistas Certificadas</h3>
+                <div class="achievements-list">
+                    <div class="achievement-item">
+                        <span class="achievement-value">30 dias</span> de disciplina
+                    </div>
+                    <div class="achievement-item">
+                        <span class="achievement-value">150 trades</span> registrados
+                    </div>
+                    <div class="achievement-item">
+                        <span class="achievement-value">Score 92%</span> de disciplina
+                    </div>
+                    <div class="achievement-item">
+                        <span class="achievement-value">Win Rate 68%</span> alcançado
+                    </div>
+                    <div class="achievement-item">
+                        <span class="achievement-value">15 badges</span> conquistados
+                    </div>
+                    <div class="achievement-item">
+                        <span class="achievement-value">Nível 5</span> atingido
+                    </div>
+                </div>
+            </div>
+            
+            <div class="signatures">
+                <div class="signature">
+                    <div class="signature-line"></div>
+                    <div class="signature-name">Mentora AI</div>
+                    <div class="signature-title">Sistema de Inteligência Artificial</div>
+                </div>
+                
+                <div class="signature">
+                    <div class="signature-line"></div>
+                    <div class="signature-name">MENTORA AI Platform</div>
+                    <div class="signature-title">Programa de Certificação</div>
+                </div>
+            </div>
+            
+            <div class="certificate-footer">
+                <div class="certificate-id">CERTIFICADO Nº MA-2024-00230</div>
+                <div class="certificate-date">Emitido em 08 de fevereiro de 2024</div>
+            </div>
+            
+            <div class="seal">
+                <div class="seal-icon">✓</div>
+                <div class="seal-text">TRADER<br>DISCIPLINADO<br>CERTIFICADO</div>
+            </div>
+        </div>
+    </div>
+    
+    <button class="btn-download" onclick="window.print()">📥 Baixar Certificado (PDF)</button>
+</body>
+</html>

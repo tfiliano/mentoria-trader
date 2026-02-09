@@ -1,0 +1,185 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* MENTORA AI Design System */
+    --background: 0 0% 4%;
+    --foreground: 0 0% 98%;
+
+    --card: 0 0% 7%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 0 0% 7%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 152 100% 50%;
+    --primary-foreground: 0 0% 4%;
+
+    --secondary: 195 100% 50%;
+    --secondary-foreground: 0 0% 4%;
+
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 65%;
+
+    --accent: 252 86% 62%;
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 345 100% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
+    --ring: 152 100% 50%;
+
+    --radius: 0.75rem;
+
+    /* Custom properties for tenant theming */
+    --accent-primary: #00ff88;
+    --accent-secondary: #00ccff;
+    --accent-danger: #ff3366;
+    --purple: #6a4ff0;
+
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #1a1a1a;
+    --bg-tertiary: #2a2a2a;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--accent-primary);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-secondary);
+  }
+}
+
+@layer utilities {
+  /* Gradient text */
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(
+      135deg,
+      var(--accent-primary) 0%,
+      var(--accent-secondary) 100%
+    );
+  }
+
+  /* Glow effects */
+  .glow-primary {
+    box-shadow: 0 0 20px var(--accent-primary);
+  }
+
+  .glow-secondary {
+    box-shadow: 0 0 20px var(--accent-secondary);
+  }
+
+  /* Card styles */
+  .card-glass {
+    @apply bg-card/50 backdrop-blur-xl border border-border/50;
+  }
+
+  /* Level-specific colors */
+  .level-1 { color: #808080; }
+  .level-2 { color: #00ff88; }
+  .level-3 { color: #00ccff; }
+  .level-4 { color: #6a4ff0; }
+  .level-5 { color: #ff6600; }
+  .level-6 { color: #ff3366; }
+  .level-7 { color: #ffcc00; }
+  .level-8 { color: #00ffcc; }
+  .level-9 { color: #ff00ff; }
+  .level-10 { color: #ffffff; }
+
+  /* Animation utilities */
+  .animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% {
+      box-shadow: 0 0 5px var(--accent-primary);
+    }
+    50% {
+      box-shadow: 0 0 20px var(--accent-primary), 0 0 40px var(--accent-primary);
+    }
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  /* XP bar animation */
+  .xp-bar {
+    @apply h-2 rounded-full bg-muted overflow-hidden;
+  }
+
+  .xp-bar-fill {
+    @apply h-full rounded-full transition-all duration-500;
+    background: linear-gradient(
+      90deg,
+      var(--accent-primary) 0%,
+      var(--accent-secondary) 100%
+    );
+  }
+
+  /* Badge grid */
+  .badge-grid {
+    @apply grid gap-4;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
+
+  /* Leaderboard row */
+  .leaderboard-row {
+    @apply flex items-center gap-4 p-4 rounded-lg bg-card/50 border border-border/50;
+    @apply hover:bg-card/80 transition-colors;
+  }
+
+  .leaderboard-rank {
+    @apply w-8 h-8 rounded-full flex items-center justify-center font-bold;
+  }
+
+  .leaderboard-rank.gold {
+    @apply bg-yellow-500/20 text-yellow-500;
+  }
+
+  .leaderboard-rank.silver {
+    @apply bg-gray-400/20 text-gray-400;
+  }
+
+  .leaderboard-rank.bronze {
+    @apply bg-orange-600/20 text-orange-600;
+  }
+}
