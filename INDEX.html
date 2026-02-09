@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MENTORA AI - Índice Completo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #1a1a1a;
+            --bg-tertiary: #2a2a2a;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --accent-primary: #00ff88;
+            --accent-secondary: #00ccff;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 30px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--accent-primary);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .section {
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: var(--accent-primary);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-icon {
+            font-size: 2.5rem;
+        }
+
+        .files-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .file-card {
+            background: var(--bg-tertiary);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .file-card:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .file-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .file-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .file-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+        }
+
+        .file-size {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            opacity: 0.7;
+        }
+
+        .file-link {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(0, 255, 136, 0.2);
+            color: var(--accent-primary);
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .badge.new {
+            background: rgba(0, 204, 255, 0.2);
+            color: var(--accent-secondary);
+        }
+
+        .readme-box {
+            background: linear-gradient(135deg, rgba(106, 79, 240, 0.2), rgba(0, 255, 136, 0.1));
+            border: 2px solid var(--accent-primary);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .readme-box h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .readme-box p {
+            color: var(--text-secondary);
+            margin-bottom: 25px;
+        }
+
+        .btn-readme {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: #000;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+
+        .btn-readme:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .stats {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .files-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 MENTORA AI</h1>
+            <p class="subtitle">Sistema Completo de Trading Gamificado com IA</p>
+            
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-value">26</div>
+                    <div class="stat-label">Arquivos</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">15K+</div>
+                    <div class="stat-label">Linhas de Código</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">100%</div>
+                    <div class="stat-label">Funcional</div>
+                </div>
+            </div>
+        </header>
+
+        <div class="readme-box">
+            <h2>📖 Leia Primeiro!</h2>
+            <p>Documentação completa com instruções técnicas, roadmap de integração, estimativas de custo e muito mais.</p>
+            <a href="README.md" class="btn-readme" download>📥 Baixar README.md</a>
+        </div>
+
+        <!-- SEÇÃO 1: CORE -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="section-icon">🎯</span>
+                Sistema Principal (11 arquivos)
+            </h2>
+            <div class="files-grid">
+                <a href="sales-page.html" class="file-link" target="_blank">
+                    <div class="file-card">
+                        <div class="file-icon">🏠</div>
+                        <div class="file-name">Sales Page</div>
+                        <div class="file-desc">Landing page completa com hero, features, pricing e CTAs</div>
+                        <div class="file-size">53 KB</div>
+                        <span class="badge">CONVERSÃO</span>
+                    </div>
+                </a>
+
+                <a href="politica-privacidade.html" class="file-link" target="_blank">
+                    <div class="file-card">
+                        <div class="file-icon">🔒</div>
+                        <div class="file-name">Política de Privacidade</div>
+                        <div class="file-desc">LGPD compliant com disclaimers de trading</div>
+                        <div class="file-size">16 KB</div>
+                        <span class="badge">LEGAL</span>
+                    </div>
+                </a>
+
+                <a href="termos-uso.html" class="file-link" target="_blank">
+                    <div class="file-card">
+                        <div class="file-icon">📜</div>
+                        <div class="file-name">Termos de Uso</div>
+                        <div class="file-desc">Termos jurídicos robustos com avisos de risco</div>
+                        <div class="file-size">20 KB</div>
+                        <span class="badge">LEGAL</span>
+                    </div>
+                </a>
+
+                <div class="file-card" style="cursor: default; opacity: 0.8;">
+                    <div class="file-icon">🎮</div>
+                    <div class="file-name">Gamification System</div>
+                    <div class="file-desc">Sistema XP + 10 níveis + 30 badges (JS)</div>
+                    <div class="file-size">21 KB</div>
+                    <span class="badge">CORE</span>
+                </div>
+
+                <div class="file-card" style="cursor: default; opacity: 0.8;">
+                    <div class="file-icon">🎨</div>
+                    <div class="file-name">Gamification Styles</div>
+                    <div class="file-desc">CSS completo para gamificação (CSS)</div>
+                    <div class="file-size">11 KB</div>
+                    <span class="badge">CORE</span>
+                </div>
+
+                <a href="desafio-30-dias.html" class="file-link" target="_blank">
+                    <div class="file-card">
+                        <div class="file-icon">🔥</div>
+                        <div class="file-name">Desafio 30 Dias</div>
+                        <div class="file-desc">Sistema de desafio com missões diárias</div>
+                        <div class="file-size">16 KB</div>
+                        <span class="badge">DESAFIO</span>
+                    </div>
+                </a>
+
+                <div class="file-card" style="cursor: default; opacity: 0.8;">
+                    <div class="file-icon">🌈</div>
+                    <div class="file-name">Theme System</div>
+                    <div class="file-desc">9 temas desbloqueáveis (JS)</div>
+                    <div class="file-size">16 KB</div>
+                    <span class="badge">TEMAS</span>
+                </div>
+
+                <a href="ranking.html" class="file-link" target="_blank">
+                    <div class="file-card">
+                        <div class="file-icon">🏆</div>
+                        <div class="file-name">Ranking Global</div>
+                        <div class="file-desc">Sistema de ranking opt-in com leaderboards</div>
+                        <div class="file-size">17 KB</div>
+                        <span class="badge">SOCIAL</span>
+                    </div>
+                </a>
+
+                <a href="feed-conquistas.html" class="file-link" target="_blank">
+                    <div class="file-card">
+                        <div class="file-icon">📰</div>
+                        <div class="file-name">Feed de Conquistas</div>
+                        <div class="file-desc">Timeline de atividades em tempo real</div>
+                        <div class="file-size">12 KB</div>
+                        <span class="badge">SOCIAL</span>
+                    </div>
+                </a>
+
+                <a href="perfil-usuario.html" class="file-link" target="_blank">
+                    <div class="file-card">
+                        <div class="file-icon">👤</div>
+                        <div class="file-name">Perfil do Usuário</div>
+                        <div class="file-desc">Página de perfil com badges showcase</div>
+                        <div class="file-size">9.5 KB</div>
+                        <span class="badge">PERFIL</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- SEÇÃO 2: FERRAMENTAS -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="section-icon">🧮</span>
+                Ferramentas & Utilidades (3 arquivos)
+            </h2>
+            <div class="files-grid">
+                <a href="calculadoras.html" class="file-link" target="_blank">
+                    <div class="file-card">
+                        <div class="file-icon">🧮</div>
+                        <div class="file-name">Calculadoras de Trading</div>
+                        <div class="file-desc">3 calculadoras: Risco, Crescimento, Compounding</div>
+                        <span class="badge new">NOVO</span>
+                    </div>
+                </a>
+
+                <a href="estatisticas-detalhadas.html" class="file-link" target="_blank">
+                    <div class="file-card">
+                        <div class="file-icon">📊</div>
+                        <div class="file-name">Estatísticas Detalhadas</div>
+                        <div class="file-desc">Dashboard completo de performance</div>
+                        <span class="badge new">NOVO</span>
+                    </div>
+                </a>
+
+                <a href="certificado-digital.html" class="file-link" target="_blank">
+                    <div class="file-card">
+                        <div class="file-icon">📜</div>
+                        <div class="file-name">Certificado Digital</div>
+                        <div class="file-desc">Template para impressão/PDF</div>
+                        <span class="badge new">NOVO</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- SEÇÃO 3: ONBOARDING -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="section-icon">🎓</span>
+                Sistema de Onboarding (3 arquivos)
+            </h2>
+            <div class="files-grid">
+                <a href="onboarding-9-telas.html" class="file-link" target="_blank">
+                    <div class="file-card">
+                        <div class="file-icon">✨</div>
+                        <div class="file-name">Onboarding 9 Telas</div>
+                        <div class="file-desc">Wizard completo de integração</div>
+                        <span class="badge new">NOVO</span>
+                    </div>
+                </a>
+
+                <div class="file-card" style="cursor: default; opacity: 0.8;">
+                    <div class="file-icon">🎨</div>
+                    <div class="file-name">Onboarding Styles</div>
+                    <div class="file-desc">CSS do wizard (arquivo CSS)</div>
+                    <span class="badge new">NOVO</span>
+                </div>
+
+                <div class="file-card" style="cursor: default; opacity: 0.8;">
+                    <div class="file-icon">⚙️</div>
+                    <div class="file-name">Onboarding Script</div>
+                    <div class="file-desc">Lógica do wizard (arquivo JS)</div>
+                    <span class="badge new">NOVO</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEÇÃO 4: CHECKOUT -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="section-icon">💳</span>
+                Sistema de Checkout (2 arquivos)
+            </h2>
+            <div class="files-grid">
+                <a href="checkout.html" class="file-link" target="_blank">
+                    <div class="file-card">
+                        <div class="file-icon">💳</div>
+                        <div class="file-name">Página de Checkout</div>
+                        <div class="file-desc">Mockup completo com 3 formas de pagamento</div>
+                        <span class="badge new">NOVO</span>
+                    </div>
+                </a>
+
+                <div class="file-card" style="cursor: default; opacity: 0.8;">
+                    <div class="file-icon">🎨</div>
+                    <div class="file-name">Checkout Styles</div>
+                    <div class="file-desc">CSS do checkout (arquivo CSS)</div>
+                    <span class="badge new">NOVO</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEÇÃO 5: COMPONENTES -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="section-icon">🧩</span>
+                Biblioteca de Componentes (3 arquivos)
+            </h2>
+            <div class="files-grid">
+                <a href="componentes-extras.html" class="file-link" target="_blank">
+                    <div class="file-card">
+                        <div class="file-icon">🧩</div>
+                        <div class="file-name">Componentes Extras</div>
+                        <div class="file-desc">Demo: Modais, Tooltips, Tour, Notificações, Breadcrumbs</div>
+                        <span class="badge new">NOVO</span>
+                    </div>
+                </a>
+
+                <div class="file-card" style="cursor: default; opacity: 0.8;">
+                    <div class="file-icon">🎨</div>
+                    <div class="file-name">Componentes Styles</div>
+                    <div class="file-desc">CSS dos componentes (arquivo CSS)</div>
+                    <span class="badge new">NOVO</span>
+                </div>
+
+                <div class="file-card" style="cursor: default; opacity: 0.8;">
+                    <div class="file-icon">⚙️</div>
+                    <div class="file-name">Componentes Scripts</div>
+                    <div class="file-desc">JS dos componentes (arquivo JS)</div>
+                    <span class="badge new">NOVO</span>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 60px; padding: 40px; background: var(--bg-secondary); border-radius: 20px; text-align: center;">
+            <h2 style="margin-bottom: 20px; color: var(--accent-primary);">🎉 Pacote Completo!</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 30px; font-size: 1.1rem;">
+                Você tem em mãos um sistema frontend profissional, completo e funcional.<br>
+                Leia o README.md para instruções de integração backend.
+            </p>
+            <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+                <a href="README.md" class="btn-readme" download>📥 Baixar README.md</a>
+                <a href="sales-page.html" class="btn-readme" target="_blank" style="background: var(--bg-tertiary); color: var(--text-primary);">🚀 Ver Sales Page</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
