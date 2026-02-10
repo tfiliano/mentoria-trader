@@ -2,6 +2,7 @@ import type { NextAuthConfig } from 'next-auth';
 
 // This config is Edge-compatible (no bcrypt, no db imports)
 export const authConfig: NextAuthConfig = {
+  trustHost: true, // Required for Vercel deployment
   session: {
     strategy: 'jwt',
   },

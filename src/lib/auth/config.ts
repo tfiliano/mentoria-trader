@@ -51,12 +51,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const tenantSlug = credentials.tenantSlug as string;
 
         // Find tenant by slug
-        const tenant = await db.query.tenants.findFirst({
-          where: and(
-            eq(tenants.slug, tenantSlug),
-            eq(tenants.isActive, true)
-          ),
-        });
+        let tenant;
+        try {
+          tenant = await db.query.tenants.findFirst({
+            where: and(
+              eq(tenants.slug, tenantSlug),
+              eq(tenants.isActive, true)
+            ),
+          });
+        } catch (dbError) {
+          console.error('[AUTH] Database error finding tenant:', dbError);
+          return null;
+        }
 
         if (!tenant) {
           console.log('[AUTH] Tenant not found:', tenantSlug);
@@ -65,13 +71,19 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         console.log('[AUTH] Tenant found:', tenant.id);
 
         // Find user within tenant
-        const user = await db.query.users.findFirst({
-          where: and(
-            eq(users.email, email),
-            eq(users.tenantId, tenant.id),
-            eq(users.isActive, true)
-          ),
-        });
+        let user;
+        try {
+          user = await db.query.users.findFirst({
+            where: and(
+              eq(users.email, email),
+              eq(users.tenantId, tenant.id),
+              eq(users.isActive, true)
+            ),
+          });
+        } catch (dbError) {
+          console.error('[AUTH] Database error finding user:', dbError);
+          return null;
+        }
 
         if (!user || !user.passwordHash) {
           console.log('[AUTH] User not found or no password:', email);
@@ -80,7 +92,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         console.log('[AUTH] User found:', user.id);
 
         // Verify password
-        const isValidPassword = await compare(password, user.passwordHash);
+        let isValidPassword;
+        try {
+          isValidPassword = await compare(password, user.passwordHash);
+        } catch (bcryptError) {
+          console.error('[AUTH] Bcrypt error:', bcryptError);
+          return null;
+        }
+
         if (!isValidPassword) {
           console.log('[AUTH] Invalid password');
           return null;
