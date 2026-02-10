@@ -2,10 +2,12 @@ import { NextResponse } from 'next/server';
 import { db } from '@/lib/db/client';
 import { tenants, users } from '@/lib/db/schema';
 import { eq, and } from 'drizzle-orm';
+import { compare } from 'bcryptjs';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const email = searchParams.get('email');
+  const password = searchParams.get('password');
 
   const checks: Record<string, unknown> = {
     timestamp: new Date().toISOString(),
@@ -45,6 +47,22 @@ export async function GET(request: Request) {
         hasPassword: !!user?.passwordHash,
         role: user?.role,
       };
+
+      // Test password if provided
+      if (password && user?.passwordHash) {
+        try {
+          const isValid = await compare(password, user.passwordHash);
+          checks.passwordTest = {
+            tested: true,
+            isValid,
+          };
+        } catch (e) {
+          checks.passwordTest = {
+            tested: false,
+            error: e instanceof Error ? e.message : String(e),
+          };
+        }
+      }
     }
   } catch (error) {
     checks.database = {
